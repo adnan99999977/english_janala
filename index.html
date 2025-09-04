@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>English Janala</title>
+    <link rel="shortcut icon" href="./assets/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="poppins">
+    <!-- nav_section -->
+    <nav>
+      <div
+        class="navbar shadow-sm bg-[rgba(99,175,238,0.2)] lg:justify-between lg:px-18 py-2"
+      >
+        <div class="navbar-start">
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a class="btn btn-outline btn-primary"
+                  ><i class="fa-solid fa-circle-question"></i>FAQ</a
+                >
+              </li>
+              <li>
+                <a class="btn btn-outline btn-primary"
+                  ><i class="fa-solid fa-book-open"></i> Learn</a
+                >
+              </li>
+              <li>
+                <a class="btn btn-outline btn-primary"
+                  ><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="logo flex items-center">
+            <div class="flex justify-center items-center text-xl">
+              <p class="font-bold">English</p>
+              <span
+                ><img class="max-w-[600px]" src="./assets/logo.png" alt=""
+              /></span>
+              <p class="font-normal">জানালা</p>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 gap-4">
+            <li>
+              <a class="btn btn-outline btn-primary"
+                ><i class="fa-solid fa-circle-question"></i>FAQ</a
+              >
+            </li>
+            <li>
+              <a class="btn btn-outline btn-primary"
+                ><i class="fa-solid fa-book-open"></i> Learn</a
+              >
+            </li>
+            <li>
+              <a class="btn btn-outline btn-primary"
+                ><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- banner-section -->
+    <section
+      class="max-w-[90%] flex flex-col-reverse lg:flex-row lg:justify-evenly m-auto mt-15"
+    >
+      <div class="left_content gap-7 w-11/12 lg:w-[40%] m-auto flex flex-col">
+        <p class="text-4xl font-bold">
+          <span class="text-[rgba(0,188,255,1)]">English </span> is Easy!!
+        </p>
+        <p class="bangla_font font-semibold text-lg">
+          আজ থেকেই আপনার ভাষা শেখার যাত্রা শুরু করুন। আপনি যদি নতুন হন অথবা
+          আপনার দক্ষতা বাড়াতে চান, আমাদের Interactive Lessons আপনাকে নিয়ে যাবে
+          অন্য একটি Level এ
+        </p>
+        <input
+          type="email"
+          required
+          placeholder="Enter Your Email"
+          class="input input-info"
+        />
+        <input
+          type="password"
+          required
+          placeholder="Enter your Password"
+          class="input input-info"
+        />
+
+        <button class="btn btn-primary w-30">Sign In</button>
+      </div>
+      <div class="right_content w-10/12 lg:w-[40%] m-auto">
+        <img src="./assets/hero-student.png" alt="" />
+      </div>
+    </section>
+
+    <!-- main_section -->
+    <main class="mt-30 max-w-[90%] m-auto mb-10">
+      <p class="text-3xl font-bold text-center">
+        <span class="text-[rgba(0,188,255,1)]">Let's</span> Learn Vocabularies
+      </p>
+
+      <section class="lessons mt-10">
+        <div id="lesson_container" class="lg:w-[80%] gap-5 m-auto flex"></div>
+      </section>
+      <div class="load text-center mt-8 hidden">
+        <span class="loading loading-dots loading-xl"></span>
+      </div>
+      <section
+        id="lesson_card_container"
+        class="max-w-[86%] gap-4 my-10 p-5 rounded-lg m-auto grid grid-cols-3 bg-[#e0e8eb48]"
+      >
+        <div class="initial_text text-center space-y-4 col-span-3 bangla_font">
+          <p class="text-sm">আপনি এখনো কোন Lesson Select করেন নি</p>
+          <p class="text-xl font-bold">একটি Lesson Select করুন।</p>
+        </div>
+      </section>
+    
+<!-- Open the modal using ID.showModal() method -->
+   <div id="popup_container">
+
+   </div>
+    
+    </main>
+
+    <script src="index.js"></script>
+  </body>
+</html>
