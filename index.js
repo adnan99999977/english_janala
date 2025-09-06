@@ -1,157 +1,147 @@
-const loadLessonBtn = () => {
+const lessonContainer = document.getElementById("lesson_container");
+const wordContainer = document.getElementById("word_container");
+const initialText = document.getElementById("initial_text");
+
+let allWordsData = []; // global storage for all words
+
+// Load all lessons
+const loadLesson = () => {
   fetch("https://openapi.programming-hero.com/api/levels/all")
-    .then((res) => res.json())
-    .then((data) => displayLessonBtn(data.data));
+    .then(res => res.json())
+    .then(data => displayLesson(data.data));
 };
 
-const displayLessonBtn = (lessons) => {
-  const lessonSec = document.getElementById("lesson_container");
-
-  lessons.forEach((element) => {
-    const createEl = document.createElement("div");
-    createEl.innerHTML = `
-      <button class="btn btn-outline btn-primary w-33 flex justify-evenly items-center lesson-btn">
-        <i class="fa-solid fa-book-open"></i> Lesson-${element.level_no}
-      </button>
-    `;
-    lessonSec.appendChild(createEl);
-
-    const btn = createEl.querySelector("button");
-
-    btn.addEventListener("click", () => {
-      document
-        .querySelectorAll(".lesson-btn")
-        .forEach((b) => b.classList.remove("active"));
-
-      btn.classList.add("active");
-
-      LoadLessonDetails(element.level_no);
-    });
-  });
+// Load lesson by id
+const lessonBtn = (id) => {
+  const url = `https://openapi.programming-hero.com/api/level/${id}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => displayWords(data.data));
 };
 
-// Dynamic fetch & display
-const LoadLessonDetails = (levelId) => {
-  let load = document.querySelector(".load");
-  load.style.display = "block";
-  fetch(`https://openapi.programming-hero.com/api/level/${levelId}`)
-    .then((res) => res.json())
-    .then((data) => displayLessonDetails(data.data))
-    .catch((err) => console.error(err))
-
-    .finally(() => {
-      load.style.display = "none";
-    });
-};
-
-const displayLessonDetails = (lesson) => {
-  const find = document.getElementById("lesson_card_container");
-  find.innerHTML = ""; // container খালি করা
-  if (!lesson || lesson.length === 0) {
-    find.innerHTML = `
-          <div class="empty text-center space-y-4 col-span-3 bangla_font ">
-            <img class="m-auto " src="./assets/alert-error.png" alt="">
-           <p class="text-sm">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
-           <p class="text-xl font-bold">নেক্সট Lesson এ যান</p>
-        </div>`;
+// Display words (dynamic cards)
+const displayWords = (words) => {
+  wordContainer.innerHTML = "";
+  if (words.length === 0) {
+    wordContainer.innerHTML = `
+      <div class="col-span-3 text-center space-y-4 bangla_font flex flex-col items-center justify-center">
+        <img class="m-auto" src="./assets/alert-error.png" alt="">
+        <p class="text-lg">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+        <p class="text-3xl font-bold">নেক্সট Lesson এ যান</p>
+      </div>`;
     return;
   }
 
-  lesson.forEach((el) => {
-    const create = document.createElement("div");
+  initialText.classList.add("hidden");
 
-    create.innerHTML = `
-      <div class="card w-80 h-auto p-7 bg-white poppins mb-4">
-        <div class="info text-center space-y-5">
-          <p class="font-bold text-2xl">${el.word}</p>
-          <p class="font-semibold">Meaning / Pronunciation</p>
-          <p class="font-semibold">${el.meaning} / ${el.pronunciation}</p>
+  words.forEach(elem => {
+    const empty = "not found";
+    const createDiv = document.createElement("div");
+    createDiv.innerHTML = `
+      <div class="w-78 h-55 bg-white rounded-md p-5">
+        <div class="text-center space-y-4 bangla_font">
+          <p class="font-bold text-2xl">${elem.word || empty}</p>
+          <p class="font-semibold text-lg">Meaning / Pronunciation</p>
+          <p class="font-semibold text-lg">"${elem.meaning || empty} / ${elem.pronunciation || empty}"</p>
         </div>
-        <br>
-        <div class="icon flex justify-between px-3">
-
-           <p class="bg-blue-200 cursor-pointer p-2 rounded-md"><i class="fa-solid fa-circle-info" data-word-id="${el.id}"></i></p> 
-      
-          <p  class="bg-blue-200 cursor-pointer  p-2 rounded-md">
-          <i class="fa-solid fa-volume-high" data-word="${el.word}"></i>
-          </p> 
+        <div class="flex justify-between px-4 mt-4">
+          <button class="bg-[rgba(26,145,255,0.1)] p-2 rounded-lg" onclick="loadModel(${elem.id})">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+          <button class="bg-[rgba(26,145,255,0.1)] p-2 rounded-lg" onclick="speakWord('${elem.word}')">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
         </div>
-      </div>
-    `;
-
-    find.appendChild(create);
+      </div>`;
+    wordContainer.appendChild(createDiv);
   });
 };
-loadLessonBtn();
 
-// Event delegation for info button
-document
-  .getElementById("lesson_card_container")
-  .addEventListener("click", (e) => {
-    if (e.target.classList.contains("fa-circle-info")) {
-      const wordId = e.target.dataset.wordId;
-
-      fetch(`https://openapi.programming-hero.com/api/word/${wordId}`)
-        .then((res) => res.json())
-        .then((info) => displayModel(info.data));
-    }
+// Display lessons
+const displayLesson = (level) => {
+  lessonContainer.innerHTML = "";
+  level.forEach(element => {
+    const createElement = document.createElement("div");
+    createElement.innerHTML = `
+      <button onclick="lessonBtn(${element.level_no})" class="lesson_btn btn btn-outline btn-primary">
+        <i class="fa-solid fa-book-open"></i> Lesson-${element.level_no}
+      </button>`;
+    lessonContainer.appendChild(createElement);
   });
-
-let displayModel = (info) => {
-  console.log("Modal info:", info);
-
-  let mod = document.getElementById("popup_container");
-
-  // clear old modal
-  mod.innerHTML = "";
-
-  // unique modal id
-  const modalId = `my_modal_${Date.now()}`;
-
-  let synonyms = Array.isArray(info.synonyms) ? info.synonyms : [];
-
-  mod.innerHTML = `
-    <dialog id="${modalId}" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box space-y-3">
-        <h3 class="text-xl font-bold">${info.word} 🎙️ ${info.pronunciation}</h3>
-
-        <p class='font-semibold'>Meaning</p>
-        <p>${info.meaning}</p>
-
-        <p class='font-semibold'>Examples</p>
-        <p>${info.sentence}</p>
-
-        <p class='font-semibold'>সমার্থক শব্দ গুলো</p>
-        <div class="flex gap-5">
-          ${synonyms
-            .map(
-              (s) =>
-                `<button class="btn text-white btn-active btn-info">${s}</button>`
-            )
-            .join("")}
-        </div>
-
-        <div class="modal-action">
-          <form method="dialog">
-            <button class="btn btn-primary">Continue Learning</button>
-          </form>
-        </div>
-      </div>
-    </dialog>
-  `;
-
-  // show modal
-  document.getElementById(modalId).showModal();
+  activeBtn();
 };
 
-document.getElementById("lesson_card_container")
-  .addEventListener("click", (e) => {
-    if (e.target.classList.contains("fa-volume-high")) {
-      const word = e.target.dataset.word; // dataset থেকে word নাও
-      if (word) {
-        const utterance = new SpeechSynthesisUtterance(word);
-        utterance.lang = "en-US"; // English pronunciation
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-  });
+// Active lesson button
+const activeBtn = () => {
+  const btns = document.getElementsByClassName("lesson_btn");
+  for (let i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      const current = document.querySelector(".lesson_btn.active");
+      if (current) current.classList.remove("active");
+      this.classList.add("active");
+    });
+  }
+};
+
+// Load modal by word id
+const loadModel = (id) => {
+  fetch(`https://openapi.programming-hero.com/api/word/${id}`)
+    .then(res => res.json())
+    .then(data => displayModel(data.data));
+};
+
+// Display modal content
+const displayModel = (word) => {
+  const modalContent = document.getElementById("modal_content");
+  modalContent.innerHTML = `
+    <h3 class="text-2xl font-bold">${word.word} (🎙️: ${word.pronunciation})</h3>
+    <p class="font-semiboldbold">Meaning</p>
+    <p>${word.meaning}</p>
+    <p class="font-semibold">Example</p>
+    <p>${word.sentence}</p>
+    <p class="font-semibold">সমার্থক শব্দ গুলো</p>
+    <ul class="flex gap-3">
+      <li><button class="btn p-3 bg-sky-200">${word.synonyms[0] || "empty"}</button></li>
+      <li><button class="btn p-3 bg-sky-200">${word.synonyms[1] || "empty"}</button></li>
+      <li><button class="btn p-3 bg-sky-200">${word.synonyms[2] || "empty"}</button></li>
+    </ul>
+    <div class="modal-action">
+      <button type="button" class="btn btn-primary" onclick="document.getElementById('my_modal_1').close()">Continue Learning</button>
+    </div>`;
+  document.getElementById("my_modal_1").showModal();
+};
+
+// Text-to-Speech
+const speakWord = (word) => {
+  if ("speechSynthesis" in window) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-US";
+    speechSynthesis.speak(utterance);
+  } else {
+    alert("Your browser does not support Text-to-Speech!");
+  }
+};
+
+// Search & filter words
+document.getElementById("search-btn").addEventListener("click", (e) => {
+  e.preventDefault();
+  const inputText = document.getElementById("input").value.toLowerCase().trim();
+  const filteredWords = allWordsData.filter(word => word.word.toLowerCase().includes(inputText));
+  
+  if(filteredWords.length === 0){
+    wordContainer.innerHTML = `<p class="text-center text-lg font-bold col-span-3">No matching words found</p>`;
+  } else {
+    displayWords(filteredWords); // show filtered words
+  }
+});
+
+// Load all words initially for search
+const allWords = () => {
+  fetch('https://openapi.programming-hero.com/api/words/all')
+    .then(res => res.json())
+    .then(data => allWordsData = data.data);
+}
+
+// Initial load
+allWords();
+loadLesson();

@@ -85,19 +85,19 @@
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1 gap-4">
             <li>
-              <a class="btn btn-outline btn-primary"
-                ><i class="fa-solid fa-circle-question"></i>FAQ</a
-              >
+                <button class="btn btn-outline btn-primary">
+                <i class="fa-solid fa-circle-question"></i>FAQ
+              </button>
             </li>
             <li>
-              <a class="btn btn-outline btn-primary"
-                ><i class="fa-solid fa-book-open"></i> Learn</a
-              >
+              <button class="btn btn-outline btn-primary">
+                <i class="fa-solid fa-book-open"></i> Learn
+              </button>
             </li>
             <li>
-              <a class="btn btn-outline btn-primary"
-                ><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a
-              >
+              <button class="btn btn-outline btn-primary">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>Logout
+              </button>
             </li>
           </ul>
         </div>
@@ -109,7 +109,7 @@
       class="max-w-[90%] flex flex-col-reverse lg:flex-row lg:justify-evenly m-auto mt-15"
     >
       <div class="left_content gap-7 w-11/12 lg:w-[40%] m-auto flex flex-col">
-        <p class="text-4xl font-bold">
+        <p class="text-5xl font-bold">
           <span class="text-[rgba(0,188,255,1)]">English </span> is Easy!!
         </p>
         <p class="bangla_font font-semibold text-lg">
@@ -139,30 +139,45 @@
 
     <!-- main_section -->
     <main class="mt-30 max-w-[90%] m-auto mb-10">
-      <p class="text-3xl font-bold text-center">
+      <p class="text-4xl font-bold text-center">
         <span class="text-[rgba(0,188,255,1)]">Let's</span> Learn Vocabularies
       </p>
-
-      <section class="lessons mt-10">
-        <div id="lesson_container" class="lg:w-[80%] gap-5 m-auto flex"></div>
-      </section>
-      <div class="load text-center mt-8 hidden">
-        <span class="loading loading-dots loading-xl"></span>
-      </div>
       <section
-        id="lesson_card_container"
-        class="max-w-[86%] gap-4 my-10 p-5 rounded-lg m-auto grid grid-cols-3 bg-[#e0e8eb48]"
-      >
-        <div class="initial_text text-center space-y-4 col-span-3 bangla_font">
-          <p class="text-sm">আপনি এখনো কোন Lesson Select করেন নি</p>
-          <p class="text-xl font-bold">একটি Lesson Select করুন।</p>
-        </div>
-      </section>
-    
-<!-- Open the modal using ID.showModal() method -->
-   <div id="popup_container">
+        id="lesson_container"
+        class="max-w-[86%] gap-4 my-5 p-5 rounded-lg m-auto flex justify-center items-center"
+      ></section>
 
-   </div>
+      <div class="search_box flex justify-center ">
+      <input id="input" class="p-[7px] rounded-md border border-gray-200 rounded-r-none" type="text" placeholder="Search word here"  />
+  <button id="search-btn" class="btn btn-primary rounded-l-none ">Search</button>
+</div>
+
+
+      <!-- initial text for select -->
+      <section
+        id="word_container"
+        class="max-w-[86%] gap-5 my-10 text-center p-5 rounded-lg m-auto grid grid-cols-3 bg-[#e0e8eb48]"
+      >
+      <div
+        id="initial_text"
+        class="initial_text text-center space-y-4 col-span-3 bangla_font  "
+      >
+        <p class="text-lg">আপনি এখনো কোন Lesson Select করেন নি</p>
+        <p class="text-3xl font-bold">একটি Lesson Select করুন।</p>
+      </div>
+       
+
+      </section>
+
+
+      <!-- Open the modal using ID.showModal() method -->
+
+ 
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box space-y-5" id="modal_content">
+   
+  </div>
+</dialog>
     
     </main>
 
